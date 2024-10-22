@@ -821,10 +821,14 @@
 
   for i in range(args.len()) {
     let arg = args.at(i)
-    let tuple = if arg.has("children") {
-      arg.at("children")
+    let tuple = if type(arg) == content and arg.has("children") {
+      if arg.children.at(0) in ([+], [-], [#sym.minus]) {
+        arg.children
+      } else {
+        ([+],..arg.children)
+      }
     } else {
-      ([+], sym.square)
+      ([+], arg)
     }
     assert(type(tuple) == array, message: "shall be array")
 
